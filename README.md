@@ -42,3 +42,9 @@ Die Rückgabe des HTTP-Requests sieht bspw. so aus: "Text1;Text2;Text3;Textn"
 
 *Sonderzeichen: Aufgrund der UTF-Zeichencodierung muss das Grad-Zeichen (°) als Dollar ($) übergeben werden.
 Beispiel: "Luft: 12.5$C" wird dargestellt als "Luft: 12.5°C"*
+
+## Anpassung der Anzahl der verwendeten DotMatrix-Module
+In der Datei MatrixDisplayESP8266.ino kann die Anzahl an folgender Stelle im Code angepasst werden:
+```C
+#define MAX_DEVICES 8
+```
