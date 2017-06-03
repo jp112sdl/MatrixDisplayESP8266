@@ -133,7 +133,7 @@ void loop()
   }
 
   if ((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0) {
-    Serial.println("Hole Werte von ioBroker...");
+    Serial.println("Hole Werte von URL...");
     String valueString = loadDataFromURL();
     char buf[valueString.length() + 1];
     valueString.toCharArray(buf, sizeof(buf));
