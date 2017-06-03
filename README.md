@@ -19,15 +19,18 @@ Die Taster an D1 und D2 sind gegen GND zu schalten. *(Pullup-Widerstand wird nic
 Wird einer der beiden Taster beim Einschalten/Stromzufuhr gedrückt gehalten, startet das Modul im AP-Modus.
 Es erscheint bei der WLAN-Suche vom Notebook/Handy ein neues WLAN namens DotMatrix-xx:xx:xx:xx:xx:xx.
 Nach dem Verbinden mit diesem WLAN wird automatisch ein Popup des Konfigurationsportals geöffnet.
-![Konfiguration1](/images/Konfiguration1.png)
 
 **WLAN konfigurieren** anklicken
 
+![Konfiguration1](/images/Konfiguration1.png)
+
+
 ![Konfiguration2](/images/Konfiguration2.png)
+
+**Beispiel**
 
 ![Konfiguration3](/images/Konfiguration3.png)
 
-**Beispiel**
 
 
 Die anzuzeigenden Werte sind durch **Semikolon getrennt** zu liefern und der **gesamte String muss in Anführungszeichen eingeschlossen sein.**
