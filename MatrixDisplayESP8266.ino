@@ -182,3 +182,25 @@ void loop()
   }
 }
 
+String loadDataFromURL() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.setTimeout(5000);
+    Serial.println("getState url: " + String(url));
+    http.begin(url);
+    int httpCode = http.GET();
+    String payload = "error";
+    if (httpCode > 0) {
+      payload = http.getString();
+    }
+    if (httpCode != 200) {
+      Serial.println("HTTP " + String(url) + " fail");
+    }
+    http.end();
+
+    payload = payload.substring(1, payload.length() - 1);
+    Serial.println("getState payload = " + payload);
+    return payload;
+  } else ESP.restart();
+}
+
