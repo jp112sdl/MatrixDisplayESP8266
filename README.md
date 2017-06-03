@@ -25,8 +25,9 @@ Nach dem Verbinden mit diesem WLAN wird automatisch ein Popup des Konfigurations
 
 ![Konfiguration2](/images/Konfiguration2.png)
 
-
 ![Konfiguration3](/images/Konfiguration3.png)
+
+**Beispiel**
 
 
 Die anzuzeigenden Werte sind durch **Semikolon getrennt** zu liefern und der **gesamte String muss in Anführungszeichen eingeschlossen sein.**
