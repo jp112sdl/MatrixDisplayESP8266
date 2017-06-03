@@ -33,6 +33,8 @@ bool doWifiConnect() {
   Hostname.toCharArray(a, 30);
 
   if (startWifiManager == true) {
+    P.displayText("Config-Mode", PA_LEFT, 25, 10, PA_PRINT, PA_PRINT);
+    P.displayAnimate();
     if (_ssid == "" || _psk == "" ) {
       wifiManager.resetSettings();
     }
@@ -77,7 +79,7 @@ bool doWifiConnect() {
     json["scrollPause"] = scrollPause;
     json["url"] = url;
     json["scrollSpeed"] = scrollSpeed;
-    
+
     SPIFFS.remove("/" + configJsonFile);
     File configFile = SPIFFS.open("/" + configJsonFile, "w");
     if (!configFile) {
@@ -142,7 +144,7 @@ bool loadWifiConfig() {
           strcpy(ip,            json["ip"]);
           strcpy(netmask,       json["netmask"]);
           strcpy(gw,            json["gw"]);
-          strcpy(refreshSeconds,json["refreshSeconds"]);
+          strcpy(refreshSeconds, json["refreshSeconds"]);
           strcpy(scrollPause,   json["scrollPause"]);
           strcpy(scrollSpeed,   json["scrollSpeed"]);
           strcpy(url,           json["url"]);

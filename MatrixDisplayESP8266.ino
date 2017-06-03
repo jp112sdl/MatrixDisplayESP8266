@@ -64,6 +64,15 @@ void setup()
   Serial.begin(115200);
   pinMode(key1, INPUT_PULLUP);
   pinMode(key2, INPUT_PULLUP);
+  P.begin();
+  P.setIntensity(intensity);
+  P.displayClear();
+  P.displaySuspend(false);
+  P.addChar('$', degC);
+  P.addChar('-', line);
+  P.addChar('_', block);
+  P.displayText("Starte...", PA_LEFT, 25, 10, PA_PRINT, PA_PRINT);
+  P.displayAnimate();
   if (!SPIFFS.begin()) {
     Serial.println("Failed to mount file system");
   } else {
@@ -74,19 +83,15 @@ void setup()
     }
   }
 
-  if (digitalRead(key1) == LOW ||digitalRead(key2) == LOW) {
+  if (digitalRead(key1) == LOW || digitalRead(key2) == LOW) {
     startWifiManager = true;
   }
 
-  P.begin();
-  P.setIntensity(intensity);
-  P.displayClear();
-  P.displaySuspend(false);
-  P.addChar('$', degC);
-  P.addChar('-', line);
-  P.addChar('_', block);
-  
   loadWifiConfig();
+  
+  //Nachdem die Config geladen wurde...
+  P.setIntensity(intensity);
+  
   if (doWifiConnect() == true) {
     udp.begin(localPort);
     setSyncProvider(getNtpTime);
@@ -94,8 +99,8 @@ void setup()
     while (timeStatus() == timeNotSet) {
       Serial.println("Waiting for Time set");
       delay(2000);
-    }    
-    P.displayText(curMessage, scrollAlign,String(scrollSpeed).toInt(), String(scrollPause).toInt() * 1000, scrollEffectIn, scrollEffectOut);
+    }
+    P.displayText(curMessage, scrollAlign, String(scrollSpeed).toInt(), String(scrollPause).toInt() * 1000, scrollEffectIn, scrollEffectOut);
   }
   else ESP.restart();
 }
@@ -160,7 +165,7 @@ void loop()
         currentValue.toCharArray(curMessage, currentValue.length() + 1);
       }
       P.displayReset();
-      P.displayText(curMessage, scrollAlign,String(scrollSpeed).toInt(), String(scrollPause).toInt() * 1000, scrollEffectIn, scrollEffectOut);
+      P.displayText(curMessage, scrollAlign, String(scrollSpeed).toInt(), String(scrollPause).toInt() * 1000, scrollEffectIn, scrollEffectOut);
     }
   } else {
     if (valueCount > 0) {
