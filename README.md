@@ -14,9 +14,13 @@ Taste2 | D2
 
 Die Taster an D1 und D2 sind gegen GND zu schalten. *(Pullup-Widerstand wird nicht benötigt)*
 
+## Taster - Funktion
+* Drücken der Taste 1 ändert die Helligkeit der DotMatrix-Anzeige
+* Drücken der Taste 2 wechselt zwischen dem Automatik-Modus (nacheinander Einblenden der Werte) und der Auswahl einer fixen Anzeige eines bestimmten Wertes.
+* ein Gedrückthalten der Taste 1 oder der Taste 2 bei Einschalten/Stromzufuhr startet das Modul in den Konfigurationsmodus
 
 ## Konfiguration
-Wird einer der beiden Taster beim Einschalten/Stromzufuhr gedrückt gehalten, startet das Modul im AP-Modus.
+Wird einer der beiden Taster bei Einschalten/Stromzufuhr gedrückt gehalten, startet das Modul im AP-Modus.
 Es erscheint bei der WLAN-Suche vom Notebook/Handy ein neues WLAN namens DotMatrix-xx:xx:xx:xx:xx:xx.
 Nach dem Verbinden mit diesem WLAN wird automatisch ein Popup des Konfigurationsportals geöffnet.
 
