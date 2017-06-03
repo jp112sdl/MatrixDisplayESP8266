@@ -1,5 +1,9 @@
 # MatrixDisplayESP8266
-Use MAX7219 DotMatrix Displays with ESP8266 and fetch Text from URL
+
+## benötigte Hardware
+* 1x Wemos D1 mini (z.B.: http://www.ebay.de/itm/172357074201)
+* 2x Dot Matrix Modul 4 8x8 1088AS Matrix mit MAX7219-Treiber (z.B.: http://www.ebay.de/itm/232176384928)
+* 2x Taster (beliebig... irgendwas, das beim Draufdrücken schließt :smiley:)
 
 ## Verdrahtung
 DotMatrix | Wemos D1
@@ -42,3 +46,9 @@ Die Rückgabe des HTTP-Requests sieht bspw. so aus: "Text1;Text2;Text3;Textn"
 
 *Sonderzeichen: Aufgrund der UTF-Zeichencodierung muss das Grad-Zeichen (°) als Dollar ($) übergeben werden.
 Beispiel: "Luft: 12.5$C" wird dargestellt als "Luft: 12.5°C"*
+
+## Anpassung der Anzahl der verwendeten DotMatrix-Module
+In der Datei MatrixDisplayESP8266.ino kann die Anzahl an folgender Stelle im Code angepasst werden:
+```C
+#define MAX_DEVICES 8
+```
