@@ -10,8 +10,8 @@
 
 char refreshSeconds[10] = "60";
 char scrollPause[10] = "5";
-char url[255] = "http://192.168.1.251:8087/getPlainValue/javascript.0.PoolMatrixDisplay.valueString";
-char scrollSpeed[10] = "24";
+char url[255] = "";
+char scrollSpeed[10] = "25";
 
 textEffect_t scrollEffectIn  = PA_SCROLL_LEFT;
 textEffect_t scrollEffectOut = PA_SCROLL_UP;
