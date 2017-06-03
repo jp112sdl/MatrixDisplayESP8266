@@ -21,7 +21,7 @@ Taste2 | D2
 
 Die Taster an D1 und D2 sind gegen GND zu schalten. *(Pullup-Widerstand wird nicht benötigt)*
 
-![Konfiguration1](/images/Back1.JPG)
+![Konfiguration1](/images/Back1.jpg)
 
 
 ## Taster - Funktion
