@@ -1,5 +1,8 @@
 # MatrixDisplayESP8266
 
+![Sample1](/images/Sample1.png)
+
+
 ## benötigte Hardware
 * 1x Wemos D1 mini (z.B.: http://www.ebay.de/itm/172357074201)
 * 2x Dot Matrix Modul 4 8x8 1088AS Matrix mit MAX7219-Treiber (z.B.: http://www.ebay.de/itm/232176384928)
