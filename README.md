@@ -23,6 +23,27 @@ Die Taster an D1 und D2 sind gegen GND zu schalten. *(Pullup-Widerstand wird nic
 
 ![Konfiguration1](/images/Back1.jpg)
 
+## Programmierung 
+
+Wie der Wemos D1 (Mini) angeschlossen und in die Arduino IDE integriert wird, ist hier gut beschrieben:
+
+http://www.instructables.com/id/Programming-the-WeMos-Using-Arduino-SoftwareIDE/
+
+Dort wird zwar das große Board gezeigt, aber die Integration in Arduino ist identisch mit dem Mini.
+
+Wer sich nicht die Mühe mit der Arduino IDE machen möchte, kann sich mithilfe des `esptools` die fertig kompilierte Firmware `MatrixDisplayESP8266.ino.d1_mini.bin` auf den Wemos laden. 
+
+Diese ist für den Einsatz von 2 4er Matrix-Module kompiliert.
+
+Der Aufruf sollte in etwa so aussehen: 
+
+`esptool.py -vv -cd nodemcu -cb 921600 -cp COM4 -ca 0x00000 -cf MatrixDisplayESP8266.ino.d1_mini.bin` 
+
+Herunterladen kann man das esptool bei Expressif.
+
+https://github.com/espressif/esptool
+
+
 
 ## Taster - Funktion
 * Drücken der Taste 1 ändert die Helligkeit der DotMatrix-Anzeige
