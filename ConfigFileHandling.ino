@@ -1,5 +1,5 @@
-bool loadUserConfig() {
-  File configFile = SPIFFS.open("/"+configFilename, "r");
+bool loadSysConfig() {
+  File configFile = SPIFFS.open("/" + configFilename, "r");
   if (!configFile) {
     Serial.println("Failed to open config file");
     return false;
@@ -22,6 +22,16 @@ bool loadUserConfig() {
     return false;
   }
 
+  json.printTo(Serial);
+
+  strcpy(ip,             json["ip"]);
+  strcpy(netmask,        json["netmask"]);
+  strcpy(gw,             json["gw"]);
+  strcpy(refreshSeconds, json["refreshSeconds"]);
+  strcpy(scrollPause,    json["scrollPause"]);
+  strcpy(scrollSpeed,    json["scrollSpeed"]);
+  strcpy(url,            json["url"]);
+
   intensity = json["intensity"];
 
   Serial.print("Loaded intensity: ");
@@ -30,17 +40,25 @@ bool loadUserConfig() {
   return true;
 }
 
-bool saveUserConfig() {
+bool saveSysConfig() {
   StaticJsonBuffer<200> jsonBuffer;
   JsonObject& json = jsonBuffer.createObject();
+
+  json["ip"] = ip;
+  json["netmask"] = netmask;
+  json["gw"] = gw;
+  json["refreshSeconds"] = refreshSeconds;
+  json["scrollPause"] = scrollPause;
+  json["url"] = url;
+  json["scrollSpeed"] = scrollSpeed;
   json["intensity"] = intensity;
 
-  File configFile = SPIFFS.open("/"+configFilename, "w");
+  File configFile = SPIFFS.open("/" + configFilename, "w");
   if (!configFile) {
     Serial.println("Failed to open config file for writing");
     return false;
   }
-
+  json.printTo(Serial);
   json.printTo(configFile);
   return true;
 }

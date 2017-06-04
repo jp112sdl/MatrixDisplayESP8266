@@ -17,7 +17,7 @@ textEffect_t scrollEffectIn  = PA_SCROLL_LEFT;
 textEffect_t scrollEffectOut = PA_SCROLL_UP;
 textPosition_t scrollAlign   = PA_CENTER;
 
-String configFilename     = "config.json";
+String configFilename     = "sysconf.json";
 
 //fixe Display
 #define MAX_DEVICES 8
@@ -41,8 +41,7 @@ int modeCnt = 0;
 
 //WifiManager - don't touch
 bool shouldSaveConfig        = false;
-String configJsonFile        = "wificonf.json";
-bool wifiManagerDebugOutput  = true;
+bool wifiManagerDebugOutput  = false;
 char ip[15]      = "0.0.0.0";
 char netmask[15] = "0.0.0.0";
 char gw[15]      = "0.0.0.0";
@@ -73,22 +72,21 @@ void setup()
   P.addChar('_', block);
   P.displayText("Starte...", PA_LEFT, 25, 10, PA_PRINT, PA_PRINT);
   P.displayAnimate();
-  if (!SPIFFS.begin()) {
-    Serial.println("Failed to mount file system");
-  } else {
-    if (!loadUserConfig()) {
-      Serial.println("Failed to load config");
-    } else {
-      Serial.println("Config loaded");
-    }
-  }
 
   if (digitalRead(key1) == LOW || digitalRead(key2) == LOW) {
     startWifiManager = true;
   }
 
-  loadWifiConfig();
-  
+   if (!SPIFFS.begin()) {
+    Serial.println("Failed to mount file system");
+  } else {
+    if (!loadSysConfig()) {
+      Serial.println("Failed to load config");
+    } else {
+      Serial.println("Config loaded");
+    }
+  }
+    
   //Nachdem die Config geladen wurde...
   P.setIntensity(intensity);
   
@@ -114,7 +112,7 @@ void loop()
       if (intensity > 14) intensity = 0;
       P.setIntensity(intensity);
       Serial.println("Set intensity to " + String(intensity));
-      if (!saveUserConfig()) {
+      if (!saveSysConfig()) {
         Serial.println("Failed to save config");
       } else {
         Serial.println("Config saved");
@@ -137,8 +135,8 @@ void loop()
     key2last = false;
   }
 
-  if ((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0) {
-    Serial.println("Hole Werte von URL...");
+  if (((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0) && String(url) != "") {
+    Serial.println("Fetching data from URL...");
     String valueString = loadDataFromURL();
     char buf[valueString.length() + 1];
     valueString.toCharArray(buf, sizeof(buf));

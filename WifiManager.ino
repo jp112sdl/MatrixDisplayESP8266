@@ -54,10 +54,6 @@ bool doWifiConnect() {
   Serial.println("Wifi Connected");
   Serial.println("CUSTOM STATIC IP: " + String(ip) + " Netmask: " + String(netmask) + " GW: " + String(gw));
   if (shouldSaveConfig) {
-    SPIFFS.begin();
-    Serial.println("saving config");
-    DynamicJsonBuffer jsonBuffer;
-    JsonObject& json = jsonBuffer.createObject();
     if (String(custom_ip.getValue()).length() > 5) {
       Serial.println("Custom IP Address is set!");
       strcpy(ip, custom_ip.getValue());
@@ -72,24 +68,8 @@ bool doWifiConnect() {
     strcpy(scrollPause, custom_scrollPause.getValue());
     strcpy(url, custom_url.getValue());
     strcpy(scrollSpeed, custom_scrollSpeed.getValue());
-    json["ip"] = ip;
-    json["netmask"] = netmask;
-    json["gw"] = gw;
-    json["refreshSeconds"] = refreshSeconds;
-    json["scrollPause"] = scrollPause;
-    json["url"] = url;
-    json["scrollSpeed"] = scrollSpeed;
 
-    SPIFFS.remove("/" + configJsonFile);
-    File configFile = SPIFFS.open("/" + configJsonFile, "w");
-    if (!configFile) {
-      Serial.println("failed to open config file for writing");
-    }
-
-    json.printTo(Serial);
-    json.printTo(configFile);
-    configFile.close();
-
+    saveSysConfig();
     SPIFFS.end();
     delay(100);
     ESP.restart();
@@ -99,8 +79,7 @@ bool doWifiConnect() {
 }
 
 void configModeCallback (WiFiManager *myWiFiManager) {
-  Serial.println("AP-Modus ist aktiv!");
-  //Ausgabe, dass der AP Modus aktiv ist
+  Serial.println("AP-Mode active!");
 }
 
 void saveConfigCallback () {
@@ -116,50 +95,5 @@ void parseBytes(const char* str, char sep, byte* bytes, int maxBytes, int base) 
       break;                            // No more separators, exit
     }
     str++;                                // Point to next character after separator
-  }
-}
-
-bool loadWifiConfig() {
-  //read configuration from FS json
-  Serial.println("mounting FS...");
-
-  if (SPIFFS.begin()) {
-    Serial.println("mounted file system");
-    if (SPIFFS.exists("/" + configJsonFile)) {
-      //file exists, reading and loading
-      Serial.println("reading config file");
-      File configFile = SPIFFS.open("/" + configJsonFile, "r");
-      if (configFile) {
-        Serial.println("opened config file");
-        size_t size = configFile.size();
-        // Allocate a buffer to store contents of the file.
-        std::unique_ptr<char[]> buf(new char[size]);
-
-        configFile.readBytes(buf.get(), size);
-        DynamicJsonBuffer jsonBuffer;
-        JsonObject& json = jsonBuffer.parseObject(buf.get());
-        json.printTo(Serial);
-        if (json.success()) {
-          Serial.println("\nparsed json");
-          strcpy(ip,            json["ip"]);
-          strcpy(netmask,       json["netmask"]);
-          strcpy(gw,            json["gw"]);
-          strcpy(refreshSeconds, json["refreshSeconds"]);
-          strcpy(scrollPause,   json["scrollPause"]);
-          strcpy(scrollSpeed,   json["scrollSpeed"]);
-          strcpy(url,           json["url"]);
-        } else {
-          Serial.println("failed to load json config");
-        }
-      }
-      return true;
-    } else {
-      Serial.println("/" + configJsonFile + " not found.");
-      return false;
-    }
-    SPIFFS.end();
-  } else {
-    Serial.println("failed to mount FS");
-    return false;
   }
 }
