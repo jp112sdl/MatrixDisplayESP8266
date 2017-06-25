@@ -66,14 +66,17 @@ Nach dem Verbinden mit diesem WLAN wird automatisch ein Popup des Konfigurations
 
 
 
-Die anzuzeigenden Werte sind durch **Semikolon getrennt** zu liefern und der **gesamte String muss in Anführungszeichen eingeschlossen sein.**
+## Bereitstellung der Daten
+Der Wemos ruft zyklisch die Daten von der URL ab.
+Die anzuzeigenden Werte sind als plain text, ohne jegliche Formatierung, nur mit einem **Semikolon getrennt** zu liefern und der **gesamte String muss in Anführungszeichen eingeschlossen sein.**
 Die Rückgabe des HTTP-Requests sieht bspw. so aus: "Text1;Text2;Text3;Textn"
 
 *Sonderzeichen: Aufgrund der UTF-Zeichencodierung muss das Grad-Zeichen (°) als Dollar ($) übergeben werden.
 Beispiel: "Luft: 12.5$C" wird dargestellt als "Luft: 12.5°C"*
 
 ## Anpassung der Anzahl der verwendeten DotMatrix-Module
-In der Datei MatrixDisplayESP8266.ino kann die Anzahl an folgender Stelle im Code angepasst werden:
+Möchte man mehr/weniger Matrix-Module anschließen, so kann die Anzahl im Code leicht geändert werden.
+In der Datei MatrixDisplayESP8266.ino:
 ```C
 #define MAX_DEVICES 8
 ```
