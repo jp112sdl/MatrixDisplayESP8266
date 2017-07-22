@@ -7,6 +7,7 @@
 #include <ArduinoJson.h>
 #include <FS.h>
 #include <WiFiManager.h>
+#include <ArduinoOTA.h>
 
 char refreshSeconds[10] = "60";
 char scrollPause[10] = "5";
@@ -29,6 +30,8 @@ uint8_t degC[] = {5, 6 , 15 , 9 , 15 , 6 };
 uint8_t line[] = {4,  0, 8, 8, 8 };
 uint8_t plus[] = {5, 8, 8, 62, 8, 8};
 uint8_t block[] =  {3, 255, 255, 255};
+uint8_t heart[] = {5, 28, 62, 124, 62, 28};
+
 char curMessage[75];
 
 int loopCount = 0;
@@ -38,6 +41,7 @@ String valueArray[20];
 int valueCount = 0;
 int intensity = 0;
 int modeCnt = 0;
+byte timeSetTryCount = 0;
 
 //WifiManager - don't touch
 bool shouldSaveConfig        = false;
@@ -70,6 +74,7 @@ void setup()
   P.addChar('$', degC);
   P.addChar('-', line);
   P.addChar('_', block);
+  P.addChar('?', heart);
   P.displayText("Starte...", PA_LEFT, 25, 10, PA_PRINT, PA_PRINT);
   P.displayAnimate();
 
@@ -77,7 +82,7 @@ void setup()
     startWifiManager = true;
   }
 
-   if (!SPIFFS.begin()) {
+  if (!SPIFFS.begin()) {
     Serial.println("Failed to mount file system");
   } else {
     if (!loadSysConfig()) {
@@ -86,25 +91,34 @@ void setup()
       Serial.println("Config loaded");
     }
   }
-    
+
   //Nachdem die Config geladen wurde...
   P.setIntensity(intensity);
-  
+
   if (doWifiConnect() == true) {
     udp.begin(localPort);
     setSyncProvider(getNtpTime);
     setSyncInterval(3600);
     while (timeStatus() == timeNotSet) {
       Serial.println("Waiting for Time set");
-      delay(2000);
+      delay(1500);
+      timeSetTryCount++;
+      if (timeSetTryCount > 4)
+      {
+        P.displayText("NTP FAILURE", PA_LEFT, 25, 10, PA_PRINT, PA_PRINT);
+        P.displayAnimate();
+        delay(2000);
+        ESP.restart();
+      }
     }
     P.displayText(curMessage, scrollAlign, String(scrollSpeed).toInt(), String(scrollPause).toInt() * 1000, scrollEffectIn, scrollEffectOut);
+    startOTAhandling();
   }
   else ESP.restart();
 }
 
-void loop()
-{
+void loop() {
+  ArduinoOTA.handle();
   if (digitalRead(key1) == LOW ) {
     if (!key1last) {
       key1last = true;
