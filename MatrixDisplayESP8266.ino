@@ -44,6 +44,7 @@ int modeCnt = 0;
 byte timeSetTryCount = 0;
 
 //WifiManager - don't touch
+#define IPSIZE              16
 bool shouldSaveConfig        = false;
 bool wifiManagerDebugOutput  = false;
 char ip[15]      = "0.0.0.0";
@@ -103,8 +104,7 @@ void setup()
       Serial.println("Waiting for Time set");
       delay(1500);
       timeSetTryCount++;
-      if (timeSetTryCount > 4)
-      {
+      if (timeSetTryCount > 4) {
         P.displayText("NTP FAILURE", PA_LEFT, 25, 10, PA_PRINT, PA_PRINT);
         P.displayAnimate();
         delay(2000);
@@ -197,7 +197,7 @@ void loop() {
 String loadDataFromURL() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    http.setTimeout(5000);
+    http.setTimeout(3000);
     Serial.println("getState url: " + String(url));
     http.begin(url);
     int httpCode = http.GET();

@@ -1,6 +1,6 @@
 void startOTAhandling() {
   ArduinoOTA.onStart([]() {
-    Serial.println("Start updating ");
+    Serial.println("Start updating");
   });
   ArduinoOTA.onEnd([]() {
     Serial.println("\nEnd");
@@ -18,9 +18,6 @@ void startOTAhandling() {
   });
 
   String Hostname = "ESP-MD-OTA-" + WiFi.macAddress();
-  char a[] = "";
-  Hostname.toCharArray(a, 30);
-
-  ArduinoOTA.setHostname(a);
+  ArduinoOTA.setHostname(Hostname.c_str());
   ArduinoOTA.begin();
 }

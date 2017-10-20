@@ -14,7 +14,7 @@ bool loadSysConfig() {
   std::unique_ptr<char[]> buf(new char[size]);
   configFile.readBytes(buf.get(), size);
 
-  StaticJsonBuffer<200> jsonBuffer;
+  DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(buf.get());
 
   if (!json.success()) {
@@ -24,13 +24,14 @@ bool loadSysConfig() {
 
   json.printTo(Serial);
 
-  strcpy(ip,             json["ip"]);
-  strcpy(netmask,        json["netmask"]);
-  strcpy(gw,             json["gw"]);
-  strcpy(refreshSeconds, json["refreshSeconds"]);
-  strcpy(scrollPause,    json["scrollPause"]);
-  strcpy(scrollSpeed,    json["scrollSpeed"]);
-  strcpy(url,            json["url"]);
+  ((json["ip"]).as<String>()).toCharArray(ip, IPSIZE);
+  ((json["netmask"]).as<String>()).toCharArray(netmask, IPSIZE);
+  ((json["gw"]).as<String>()).toCharArray(gw, IPSIZE);
+
+  ((json["refreshSeconds"]).as<String>()).toCharArray(refreshSeconds, 10);
+  ((json["scrollPause"]).as<String>()).toCharArray(scrollPause, 10);
+  ((json["scrollSpeed"]).as<String>()).toCharArray(scrollSpeed, 10);
+  ((json["url"]).as<String>()).toCharArray(url, 255);
 
   intensity = json["intensity"];
 
@@ -41,7 +42,7 @@ bool loadSysConfig() {
 }
 
 bool saveSysConfig() {
-  StaticJsonBuffer<200> jsonBuffer;
+  DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.createObject();
 
   json["ip"] = ip;
