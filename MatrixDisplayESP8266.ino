@@ -211,7 +211,12 @@ String loadDataFromURL() {
     }
     http.end();
 
-    payload = payload.substring(1, payload.length() - 1);
+    if (payload.indexOf("</ret>") > 0) {
+      payload = payload.substring(payload.indexOf("<ret>"));
+      payload = payload.substring(5, payload.indexOf("</ret>"));
+    } else {
+      payload = payload.substring(1, payload.length() - 1);
+    }
     Serial.println("getState payload = " + payload);
     return payload;
   } else ESP.restart();
