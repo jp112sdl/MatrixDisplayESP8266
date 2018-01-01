@@ -25,7 +25,7 @@ String configFilename     = "sysconf.json";
 #define CLK_PIN   D7
 #define DATA_PIN  D5
 #define CS_PIN    D8
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 uint8_t degC[] = {5, 6 , 15 , 9 , 15 , 6 };
 uint8_t line[] = {4,  0, 8, 8, 8 };
 uint8_t plus[] = {5, 8, 8, 62, 8, 8};
@@ -55,7 +55,7 @@ bool startWifiManager = false;
 const int NTP_PACKET_SIZE = 48;
 byte packetBuffer[ NTP_PACKET_SIZE];
 unsigned int localPort = 2390;
-const char* ntpServerName = "time.nist.gov";
+const char* ntpServerName = "ptbtime2.ptb.de";
 WiFiUDP udp;
 
 #define key1 D1
