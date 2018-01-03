@@ -54,9 +54,13 @@ bool startWifiManager = false;
 
 const int NTP_PACKET_SIZE = 48;
 byte packetBuffer[ NTP_PACKET_SIZE];
-unsigned int localPort = 2390;
+unsigned int localNTPport = 2390;
 const char* ntpServerName = "ptbtime2.ptb.de";
-WiFiUDP udp;
+WiFiUDP NTPudp;
+
+int localCNTRLport = 6610;
+char incomingPacket[255];
+WiFiUDP CNTRLudp;
 
 #define key1 D1
 #define key2 D2
@@ -97,7 +101,8 @@ void setup()
   P.setIntensity(intensity);
 
   if (doWifiConnect() == true) {
-    udp.begin(localPort);
+    NTPudp.begin(localNTPport);
+    CNTRLudp.begin(localCNTRLport);
     setSyncProvider(getNtpTime);
     setSyncInterval(3600);
     while (timeStatus() == timeNotSet) {
@@ -149,7 +154,9 @@ void loop() {
     key2last = false;
   }
 
-  if (((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0) && String(url) != "") {
+  String udpMessage = handleUDP();
+
+  if (((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0 || udpMessage == "update") && String(url) != "") {
     Serial.println("Fetching data from URL...");
     String valueString = loadDataFromURL();
     char buf[valueString.length() + 1];
