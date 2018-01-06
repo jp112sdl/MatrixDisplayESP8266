@@ -1,13 +1,13 @@
 time_t getNtpTime() {
   IPAddress ntpServerIP;
-  while (udp.parsePacket() > 0) ;
+  while (NTPudp.parsePacket() > 0) ;
   WiFi.hostByName(ntpServerName, ntpServerIP);
   sendNTPpacket(ntpServerIP);
   uint32_t beginWait = millis();
   while (millis() - beginWait < 1600) {
-    int size = udp.parsePacket();
+    int size = NTPudp.parsePacket();
     if (size >= NTP_PACKET_SIZE) {
-      udp.read(packetBuffer, NTP_PACKET_SIZE);
+      NTPudp.read(packetBuffer, NTP_PACKET_SIZE);
       unsigned long secsSince1900;
       secsSince1900 =  (unsigned long)packetBuffer[40] << 24;
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
@@ -30,14 +30,15 @@ unsigned long sendNTPpacket(IPAddress& address) {
   packetBuffer[13]  = 0x4E;
   packetBuffer[14]  = 49;
   packetBuffer[15]  = 52;
-  udp.beginPacket(address, 123);
-  udp.write(packetBuffer, NTP_PACKET_SIZE);
-  udp.endPacket();
+  NTPudp.beginPacket(address, 123);
+  NTPudp.write(packetBuffer, NTP_PACKET_SIZE);
+  NTPudp.endPacket();
 }
 
 String calcTime(time_t t) {
   byte Stunde = hour(t) + 1;
   Stunde = (summertime(t, 0)) ? Stunde + 1 : Stunde;
+  if (Stunde == 24) Stunde = 0;
   return String((Stunde < 10) ? "0" : "" ) + String(Stunde) +  ":" + String((minute(t) < 10) ? "0" : "" )  + String(minute(t)) + " Uhr";
 }
 

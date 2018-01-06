@@ -25,7 +25,8 @@ String configFilename     = "sysconf.json";
 #define CLK_PIN   D7
 #define DATA_PIN  D5
 #define CS_PIN    D8
-MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 uint8_t degC[] = {5, 6 , 15 , 9 , 15 , 6 };
 uint8_t line[] = {4,  0, 8, 8, 8 };
 uint8_t plus[] = {5, 8, 8, 62, 8, 8};
@@ -54,17 +55,20 @@ bool startWifiManager = false;
 
 const int NTP_PACKET_SIZE = 48;
 byte packetBuffer[ NTP_PACKET_SIZE];
-unsigned int localPort = 2390;
+unsigned int localNTPport = 2390;
 const char* ntpServerName = "ptbtime2.ptb.de";
-WiFiUDP udp;
+WiFiUDP NTPudp;
+
+int localCNTRLport = 6610;
+char incomingPacket[255];
+WiFiUDP CNTRLudp;
 
 #define key1 D1
 #define key2 D2
 bool key1last = false;
 bool key2last = false;
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
   pinMode(key1, INPUT_PULLUP);
   pinMode(key2, INPUT_PULLUP);
@@ -97,7 +101,8 @@ void setup()
   P.setIntensity(intensity);
 
   if (doWifiConnect() == true) {
-    udp.begin(localPort);
+    NTPudp.begin(localNTPport);
+    CNTRLudp.begin(localCNTRLport);
     setSyncProvider(getNtpTime);
     setSyncInterval(3600);
     while (timeStatus() == timeNotSet) {
@@ -149,7 +154,9 @@ void loop() {
     key2last = false;
   }
 
-  if (((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0) && String(url) != "") {
+  String udpMessage = handleUDP();
+
+  if (((millis() - lastMillis > String(refreshSeconds).toInt() * 1000) || lastMillis == 0 || udpMessage == "update") && String(url) != "") {
     Serial.println("Fetching data from URL...");
     String valueString = loadDataFromURL();
     char buf[valueString.length() + 1];
