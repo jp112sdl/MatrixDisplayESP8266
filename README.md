@@ -36,7 +36,7 @@ Diese ist für den Einsatz von 2 4er Matrix-Module kompiliert.
 
 Der Aufruf sollte in etwa so aussehen: 
 
-`esptool.py -vv -cd nodemcu -cb 921600 -cp COM4 -ca 0x00000 -cf MatrixDisplayESP8266.ino.d1_mini.bin` 
+`esptool.py --port COM4 write_flash 0x00000 MatrixDisplayESP8266.ino.d1_mini.bin` 
 
 Herunterladen kann man das esptool bei Expressif:
 https://github.com/espressif/esptool
@@ -79,6 +79,8 @@ wobei `1.2.3.4` durch die IP der CCU2 und `SV_Matrix` durch den Namen der System
 
 *Sonderzeichen: Aufgrund der UTF-Zeichencodierung muss das Grad-Zeichen (°) als Dollar ($) übergeben werden.
 Beispiel: "Luft: 12.5$C" wird dargestellt als "Luft: 12.5°C"*
+
+### Eine weitere, detailliertere Anleitung (inkl. 3D Gehäuse-Vorlage) findet ihr auf [Michaels Blog]( https://www.schellenberger.biz/matrix-display-fuer-homematic-im-nachbau/).
 
 ## Anpassung der Anzahl der verwendeten DotMatrix-Module
 Möchte man mehr/weniger Matrix-Module anschließen, so kann die Anzahl im Code leicht geändert werden.
