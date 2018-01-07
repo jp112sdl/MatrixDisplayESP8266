@@ -38,7 +38,7 @@ unsigned long sendNTPpacket(IPAddress& address) {
 String calcTime(time_t t) {
   byte Stunde = hour(t) + 1;
   Stunde = (summertime(t, 0)) ? Stunde + 1 : Stunde;
-  if (Stunde == 24) Stunde = 0;
+  if (Stunde > 23) Stunde = Stunde - 24;
   return String((Stunde < 10) ? "0" : "" ) + String(Stunde) +  ":" + String((minute(t) < 10) ? "0" : "" )  + String(minute(t)) + " Uhr";
 }
 
