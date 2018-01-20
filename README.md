@@ -31,17 +31,6 @@ http://www.instructables.com/id/Programming-the-WeMos-Using-Arduino-SoftwareIDE/
 
 Dort wird zwar das große Board gezeigt, aber die Integration in Arduino ist identisch mit dem Mini.
 
-Wer sich nicht die Mühe mit der Arduino IDE machen möchte, kann sich mithilfe des `esptools` die fertig kompilierte Firmware `MatrixDisplayESP8266.ino.d1_mini.bin` auf den Wemos laden. 
-Diese ist für den Einsatz von 2 4er Matrix-Module kompiliert.
-
-Der Aufruf sollte in etwa so aussehen: 
-
-`esptool.py --port COM4 write_flash 0x00000 MatrixDisplayESP8266.ino.d1_mini.bin` 
-
-Herunterladen kann man das esptool bei Expressif:
-https://github.com/espressif/esptool
-
-
 
 ## Taster - Funktion
 * Drücken der Taste 1 ändert die Helligkeit der DotMatrix-Anzeige
