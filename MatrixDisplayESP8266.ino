@@ -22,11 +22,11 @@ String configFilename     = "sysconf.json";
 
 //fixe Display
 #define MAX_DEVICES 8
-#define CLK_PIN   D7
-#define DATA_PIN  D5
+#define CLK_PIN   D5
+#define DATA_PIN  D7
 #define CS_PIN    D8
-//MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
-MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
+MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+//MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 uint8_t degC[] = {5, 6 , 15 , 9 , 15 , 6 };
 uint8_t line[] = {4,  0, 8, 8, 8 };
 uint8_t plus[] = {5, 8, 8, 62, 8, 8};
