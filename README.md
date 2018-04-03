@@ -13,8 +13,8 @@ DotMatrix | Wemos D1
 ------------ | -------------
 VCC       | +5V
 GND       | GND
-DIN       | D5
-CLK       | D7
+DIN       | D7
+CLK       | D5
 CS        | D8
 Taste1 | D1
 Taste2 | D2
