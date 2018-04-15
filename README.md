@@ -77,3 +77,7 @@ In der Datei MatrixDisplayESP8266.ino:
 ```C
 #define MAX_DEVICES 8
 ```
+
+## Gehäuse / Rahmen
+...gibts z.B. hier:
+- [Link](https://www.thingiverse.com/thing:2862875)
