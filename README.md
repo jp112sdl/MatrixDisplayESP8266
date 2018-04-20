@@ -31,6 +31,7 @@ http://www.instructables.com/id/Programming-the-WeMos-Using-Arduino-SoftwareIDE/
 
 Dort wird zwar das große Board gezeigt, aber die Integration in Arduino ist identisch mit dem Mini.
 
+Sollten Kompilierfehler auftreten, bitte [Issue #9](https://github.com/jp112sdl/MatrixDisplayESP8266/issues/9) beachten!
 
 ## Taster - Funktion
 * Drücken der Taste 1 ändert die Helligkeit der DotMatrix-Anzeige
