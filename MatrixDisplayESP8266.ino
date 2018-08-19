@@ -21,11 +21,18 @@ textPosition_t scrollAlign   = PA_CENTER;
 String configFilename     = "sysconf.json";
 
 //fixe Display
-#define MAX_DEVICES 8
-#define CLK_PIN   D5
-#define DATA_PIN  D7
-#define CS_PIN    D8
-MD_Parola P = MD_Parola(DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+/*  HARDWARE_TYPE:
+    PAROLA_HW,    ///< Use the Parola style hardware modules.
+    GENERIC_HW,   ///< Use 'generic' style hardware modules commonly available.
+    ICSTATION_HW, ///< Use ICStation style hardware module.
+    FC16_HW       ///< Use FC-16 style hardware module.
+ */
+#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW 
+#define MAX_DEVICES   8
+#define CLK_PIN       D5
+#define DATA_PIN      D7
+#define CS_PIN        D8
+MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 //MD_Parola P = MD_Parola(CS_PIN, MAX_DEVICES);
 uint8_t degC[] = {5, 6 , 15 , 9 , 15 , 6 };
 uint8_t line[] = {4,  0, 8, 8, 8 };
