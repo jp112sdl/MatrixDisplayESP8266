@@ -6,7 +6,7 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 #include <FS.h>
-#include <WiFiManager.h>
+#include "WM.h"
 #include <ArduinoOTA.h>
 
 char refreshSeconds[10] = "60";
@@ -26,8 +26,8 @@ String configFilename     = "sysconf.json";
     GENERIC_HW,   ///< Use 'generic' style hardware modules commonly available.
     ICSTATION_HW, ///< Use ICStation style hardware module.
     FC16_HW       ///< Use FC-16 style hardware module.
- */
-#define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW 
+*/
+#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
 #define MAX_DEVICES   8
 #define CLK_PIN       D5
 #define DATA_PIN      D7
@@ -54,7 +54,7 @@ byte timeSetTryCount = 0;
 //WifiManager - don't touch
 #define IPSIZE              16
 bool shouldSaveConfig        = false;
-bool wifiManagerDebugOutput  = false;
+bool wifiManagerDebugOutput  = true;
 char ip[15]      = "0.0.0.0";
 char netmask[15] = "0.0.0.0";
 char gw[15]      = "0.0.0.0";
@@ -99,6 +99,7 @@ void setup() {
   } else {
     if (!loadSysConfig()) {
       Serial.println("Failed to load config");
+      startWifiManager = true;
     } else {
       Serial.println("Config loaded");
     }
