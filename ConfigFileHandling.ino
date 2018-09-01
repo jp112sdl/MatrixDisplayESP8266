@@ -60,6 +60,7 @@ bool saveSysConfig() {
     return false;
   }
   serializeJson(doc, Serial);
+  serializeJson(doc, configFile);
   Serial.println();
   return true;
 }
