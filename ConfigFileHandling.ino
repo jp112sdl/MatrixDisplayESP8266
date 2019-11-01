@@ -14,7 +14,7 @@ bool loadSysConfig() {
   std::unique_ptr<char[]> buf(new char[size]);
   configFile.readBytes(buf.get(), size);
 
-  DynamicJsonDocument doc;
+  StaticJsonDocument<1024> doc;
   DeserializationError error = deserializeJson(doc, buf.get());
 
   if (error) {
@@ -42,7 +42,7 @@ bool loadSysConfig() {
 }
 
 bool saveSysConfig() {
-  DynamicJsonDocument doc;
+  StaticJsonDocument<1024> doc;
   JsonObject json = doc.to<JsonObject>();
 
   json["ip"] = ip;
